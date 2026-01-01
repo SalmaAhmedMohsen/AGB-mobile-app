@@ -9,10 +9,69 @@ import {
   View,
 } from "react-native";
 
-import { slides } from "../slides";
+import { slides } from "../utilities/slides";
+const { width, height } = Dimensions.get("window");
+const Slides = ({ item }) => {
+  return (
+    <View style={{ width, alignItems: "center", height: height * 0.7 }}>
+      <Image
+        style={{ height: "65%", resizeMode: "contain" }}
+        source={item.img}
+      />
+      <Text style={styles.title}>{item.title}</Text>
+      <Text style={styles.description}>{item.description}</Text>
+    </View>
+  );
+};
 
-function OnboardingScreen({navigation}) {
-  const { width, height } = Dimensions.get("window");
+const Footer = ({ currentSlideIndex, goToNextSlide, navigation }) => {
+  return (
+    <View
+      style={{
+        height: height * 0.25,
+        paddingHorizontal: 20,
+        justifyContent: "space-between",
+        alignItems: "center",
+      }}
+    >
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "center",
+          marginTop: 20,
+        }}
+      >
+        {slides.map((_, index) => (
+          <View
+            key={index}
+            style={[
+              styles.indicator,
+              currentSlideIndex == index && {
+                backgroundColor: "#283A8D",
+              },
+            ]}
+          ></View>
+        ))}
+      </View>
+      <View>
+        {currentSlideIndex == slides.length - 1 ? (
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.replace("Login")}
+          >
+            <Text style={styles.buttonText}>Continue</Text>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity style={styles.button} onPress={goToNextSlide}>
+            <Text style={styles.buttonText}>Next</Text>
+          </TouchableOpacity>
+        )}
+      </View>
+    </View>
+  );
+};
+
+function OnboardingScreen({ navigation }) {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const flatListRef = useRef(null);
 
@@ -29,66 +88,10 @@ function OnboardingScreen({navigation}) {
       });
     }
   };
-  const Slides = ({ item }) => {
-    return (
-      <View style={{ width, alignItems: "center", height: height * 0.7 }}>
-        <Image
-          style={{ height: "65%", resizeMode: "contain" }}
-          source={item.img}
-        />
-        <Text style={styles.title}>{item.title}</Text>
-        <Text style={styles.description}>{item.description}</Text>
-      </View>
-    );
-  };
-
-  const Footer = () => {
-    return (
-      <View
-        style={{
-          height: height * 0.25,
-          paddingHorizontal: 20,
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "center",
-            marginTop: 20,
-          }}
-        >
-          {slides.map((_, index) => (
-            <View
-              key={index}
-              style={[
-                styles.indecator,
-                currentSlideIndex == index && {
-                  backgroundColor: "#283A8D",
-                },
-              ]}
-            ></View>
-          ))}
-        </View>
-        <View>
-          {currentSlideIndex == slides.length - 1 ? (
-            <TouchableOpacity style={styles.button} onPress={() => navigation.replace("Login")}>
-              <Text style={styles.buttonText}>Continue</Text>
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity style={styles.button} onPress={goToNextSlide}>
-              <Text style={styles.buttonText}>Next</Text>
-            </TouchableOpacity>
-          )}
-        </View>
-      </View>
-    );
-  };
 
   return (
     <>
-      <View style={{ flex: 1, backgroundColor: "white" }}>
+      <View style={styles.container}>
         <FlatList
           ref={flatListRef}
           onMomentumScrollEnd={updateCurrentSlideIndex}
@@ -103,7 +106,11 @@ function OnboardingScreen({navigation}) {
           data={slides}
           renderItem={({ item }) => <Slides item={item} />}
         />
-        <Footer />
+        <Footer
+          currentSlideIndex={currentSlideIndex}
+          goToNextSlide={goToNextSlide}
+          navigation={navigation}
+        />
       </View>
     </>
   );
@@ -113,7 +120,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     backgroundColor: "white",
-    paddingTop: 60,
   },
   title: {
     fontWeight: "bold",
@@ -135,7 +141,7 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 16,
   },
-  indecator: {
+  indicator: {
     height: 6,
     width: 30,
     backgroundColor: "#D6E4FF",

@@ -7,7 +7,7 @@ import {
   View,
 } from "react-native";
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
-import { passwordRules } from "../passwordRules";
+import { passwordRules } from "../utilities/passwordRules";
 
 function SignupScreenTwo({ navigation }) {
   const [hidePassword, setHidePassword] = useState(true);
