@@ -1,4 +1,4 @@
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -6,14 +6,22 @@ import {
   Image,
   TouchableOpacity,
   FlatList,
+  Dimensions,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { FontAwesome5 } from "@expo/vector-icons";
+const { width, height } = Dimensions.get("window");
 
 function HomeScreen({ route }) {
   const { username } = route.params;
   const [data, setData] = useState([]);
-  const [showBtns, setShowBtns] = useState(false);
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+  const updateCurrentSlideIndex = (e) => {
+    const currentIndex = Math.round(e.nativeEvent.contentOffset.x / width);
+    setCurrentSlideIndex(currentIndex);
+  };
+  const currentCard = data[currentSlideIndex];
+  const isActive = !!currentCard?.isActive;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,7 +30,6 @@ function HomeScreen({ route }) {
       );
       const result = await response.json();
       setData(result);
-      setShowBtns(result[0]?.isActive);
     };
     fetchData();
   }, []);
@@ -38,20 +45,41 @@ function HomeScreen({ route }) {
             <Text style={styles.headerTitle}>Hello, {username}</Text>
           </View>
           <Text style={{ paddingTop: 30 }}>Credit Balance</Text>
-          <Text style={styles.balance}>
-            USD {showBtns ? data[0]?.balance : 0}
-          </Text>
-          <Text style={styles.cardNumber}>{data[0]?.cardNumber}</Text>
-          <Image
-            style={styles.card}
-            source={require("../assets/images/Card.png")}
+
+          {/* Flatlist area*/}
+          <FlatList
+            horizontal
+            pagingEnabled
+            directionalLockEnabled={true}
+            bounces={false}
+            alwaysBounceHorizontal={false}
+            alwaysBounceVertical={false}
+            onMomentumScrollEnd={updateCurrentSlideIndex}
+            overScrollMode="never"
+            data={data}
+            renderItem={({ item }) => {
+              return (
+                <View
+                  style={{ width, alignItems: "center", height: height * 0.7 }}
+                >
+                  <Text style={styles.cardNumber}>{item?.cardNumber}</Text>
+                  <Text style={styles.balance}>
+                    USD {isActive ? item?.balance : 0}
+                  </Text>
+                  <Image
+                    style={styles.card}
+                    source={require("../assets/images/Card.png")}
+                  />
+                </View>
+              );
+            }}
           />
         </View>
       </SafeAreaView>
 
       {/* Center */}
       {/* Action Buttons */}
-      {showBtns ? (
+      {isActive ? (
         <View style={styles.btnsContainer}>
           <TouchableOpacity style={{ alignItems: "center" }}>
             <FontAwesome5
@@ -73,7 +101,14 @@ function HomeScreen({ route }) {
         // Activate Card Button
         <TouchableOpacity
           style={styles.activateCardBtn}
-          onPress={() => setShowBtns(true)}
+          // onPress={() => setShowBtns(true)}
+          onPress={() => {
+            setData((prev) =>
+              prev.map((card, i) =>
+                i === currentSlideIndex ? { ...card, isActive: true } : card
+              )
+            );
+          }}
         >
           <FontAwesome5
             name="unlock"
@@ -190,7 +225,7 @@ const styles = StyleSheet.create({
   cardNumber: {
     position: "absolute",
     color: "white",
-    top: "40%",
+    top: "12%",
     left: "35%",
     zIndex: 1,
     fontWeight: "bold",

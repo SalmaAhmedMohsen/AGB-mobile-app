@@ -10,6 +10,7 @@ import {
 } from "react-native";
 
 import { slides } from "../utilities/slides";
+
 const { width, height } = Dimensions.get("window");
 const Slides = ({ item }) => {
   return (

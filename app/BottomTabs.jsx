@@ -4,7 +4,6 @@ import { useLinkBuilder, useTheme } from "@react-navigation/native";
 import { Text, PlatformPressable } from "@react-navigation/elements";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons, FontAwesome5, FontAwesome } from "@expo/vector-icons";
-
 import HomeScreen from "@/screens/HomeScreen";
 import SupportScreen from "@/screens/SupportScreen";
 
@@ -78,7 +77,6 @@ function MyTabBar({ state, descriptors, navigation }) {
 }
 
 const Tab = createBottomTabNavigator();
-
 export default function BottomTabs({ route }) {
   const { username } = route.params;
   return (
