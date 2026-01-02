@@ -1,15 +1,15 @@
+import { FontAwesome5 } from "@expo/vector-icons";
 import React, { useEffect, useState } from "react";
 import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  FlatList,
   Dimensions,
+  FlatList,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { FontAwesome5 } from "@expo/vector-icons";
 const { width, height } = Dimensions.get("window");
 
 function HomeScreen({ route }) {
@@ -40,13 +40,14 @@ function HomeScreen({ route }) {
         <View style={{ alignItems: "center" }}>
           <View style={{ width: "100%" }}>
             <View style={styles.avatar}>
-              <Text style={styles.avatarTxt}>{username.charAt(0).toUpperCase()}</Text>
+              <Text style={styles.avatarTxt}>
+                {username.charAt(0).toUpperCase()}
+              </Text>
             </View>
             <Text style={styles.headerTitle}>Hello, {username}</Text>
           </View>
           <Text style={{ paddingTop: 30 }}>Credit Balance</Text>
 
-          {/* Flatlist area*/}
           <FlatList
             horizontal
             pagingEnabled
@@ -101,7 +102,6 @@ function HomeScreen({ route }) {
         // Activate Card Button
         <TouchableOpacity
           style={styles.activateCardBtn}
-          // onPress={() => setShowBtns(true)}
           onPress={() => {
             setData((prev) =>
               prev.map((card, i) =>

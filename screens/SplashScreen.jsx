@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { ImageBackground, StyleSheet, Text, View } from "react-native";
+import { ImageBackground, StyleSheet } from "react-native";
 
 function SplashScreen({ navigation }) {
   useEffect(() => {

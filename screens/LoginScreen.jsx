@@ -8,12 +8,7 @@ import {
   TextInput,
   KeyboardAvoidingView,
 } from "react-native";
-import {
-  FontAwesome,
-  FontAwesome5,
-  EvilIcons,
-  Ionicons,
-} from "@expo/vector-icons";
+import { FontAwesome5, Ionicons } from "@expo/vector-icons";
 import Toast from "react-native-toast-message";
 
 function LoginScreen({ navigation }) {
