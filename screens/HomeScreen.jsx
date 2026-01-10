@@ -1,5 +1,6 @@
 import { FontAwesome5 } from "@expo/vector-icons";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   Dimensions,
   FlatList,
@@ -22,6 +23,7 @@ function HomeScreen({ route }) {
   };
   const currentCard = data[currentSlideIndex];
   const isActive = !!currentCard?.isActive;
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,9 +46,11 @@ function HomeScreen({ route }) {
                 {username.charAt(0).toUpperCase()}
               </Text>
             </View>
-            <Text style={styles.headerTitle}>Hello, {username}</Text>
+            <Text style={styles.headerTitle}>
+              {t("home.hello")}, {username}
+            </Text>
           </View>
-          <Text style={{ paddingTop: 30 }}>Credit Balance</Text>
+          <Text style={{ paddingTop: 30 }}>{t("home.balance")}</Text>
 
           <FlatList
             horizontal
@@ -65,7 +69,7 @@ function HomeScreen({ route }) {
                 >
                   <Text style={styles.cardNumber}>{item?.cardNumber}</Text>
                   <Text style={styles.balance}>
-                    USD {isActive ? item?.balance : 0}
+                    {t("home.currency")} {isActive ? item?.balance : 0}
                   </Text>
                   <Image
                     style={styles.card}
@@ -87,15 +91,15 @@ function HomeScreen({ route }) {
               name="arrow-up"
               style={[styles.btns, { transform: [{ rotate: "45deg" }] }]}
             />
-            <Text style={styles.bntsTxt}>Send</Text>
+            <Text style={styles.bntsTxt}>{t("home.send")}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={{ alignItems: "center" }}>
             <FontAwesome5 name="eye" style={styles.btns} />
-            <Text style={styles.bntsTxt}>Details</Text>
+            <Text style={styles.bntsTxt}>{t("home.Details")}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={{ alignItems: "center" }}>
             <FontAwesome5 name="cog" style={styles.btns} />
-            <Text style={styles.bntsTxt}>Manage</Text>
+            <Text style={styles.bntsTxt}>{t("home.manage")}</Text>
           </TouchableOpacity>
         </View>
       ) : (
@@ -115,7 +119,7 @@ function HomeScreen({ route }) {
             style={{ fontSize: 20, color: "white" }}
           />
           <Text style={{ color: "white", fontWeight: "bold", fontSize: 16 }}>
-            Activate Card
+            {t("home.activateBtn")}
           </Text>
         </TouchableOpacity>
       )}
@@ -124,7 +128,7 @@ function HomeScreen({ route }) {
       <View
         style={{ backgroundColor: "white", flex: 1, paddingHorizontal: 25 }}
       >
-        <Text style={styles.transactionTxt}>Transactions</Text>
+        <Text style={styles.transactionTxt}>{t("home.transactions")}</Text>
         <View>
           {data[0]?.transactions.length == 0 ? (
             // No Transaction Yet
@@ -136,7 +140,7 @@ function HomeScreen({ route }) {
                 />
               </View>
               <Text style={{ marginTop: 20, fontSize: 20, fontWeight: "bold" }}>
-                No transaction yet
+                {t("home.noTransactions")}
               </Text>
             </View>
           ) : (

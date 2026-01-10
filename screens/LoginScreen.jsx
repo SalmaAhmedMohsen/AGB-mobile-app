@@ -10,12 +10,20 @@ import {
 } from "react-native";
 import { FontAwesome5, Ionicons } from "@expo/vector-icons";
 import Toast from "react-native-toast-message";
+import { useTranslation } from "react-i18next";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function LoginScreen({ navigation }) {
   const [hidePassword, setHidePassword] = useState(true);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const isDisabled = !username || !password;
+  const { t, i18n } = useTranslation();
+  const isAr = i18n.language === "ar";
+  const changeLanguage = async (language) => {
+    await AsyncStorage.setItem("language", language);
+    i18n.changeLanguage(language);
+  };
 
   const handleLogin = async () => {
     const response = await fetch("https://dummyjson.com/auth/login", {
@@ -32,7 +40,7 @@ function LoginScreen({ navigation }) {
     } else {
       Toast.show({
         type: "error",
-        text1: "Wrong username or password",
+        text1: t("login.loginError"),
       });
     }
   };
@@ -47,8 +55,15 @@ function LoginScreen({ navigation }) {
         {/* Top */}
         <View style={styles.topSection}>
           <View>
-            <TouchableOpacity style={styles.langButton}>
-              <Text style={styles.langText}>العربية</Text>
+            <TouchableOpacity
+              style={styles.langButton}
+              onPress={() => {
+                changeLanguage(isAr ? "en" : "ar");
+              }}
+            >
+              <Text style={styles.langText}>
+                {isAr ? "English" : "العربية"}
+              </Text>
             </TouchableOpacity>
           </View>
           <View style={styles.logo}>
@@ -62,9 +77,9 @@ function LoginScreen({ navigation }) {
         <View style={styles.bottomSection}>
           {/* Inputs */}
           <View>
-            <Text style={styles.title}>Welcome to AGB bank</Text>
+            <Text style={styles.title}>{t("login.welcome")}</Text>
             <Text style={{ marginBottom: 5, fontWeight: "bold" }}>
-              Username
+              {t("login.username")}
             </Text>
             <TextInput
               style={styles.input}
@@ -72,7 +87,7 @@ function LoginScreen({ navigation }) {
               value={username}
             />
             <Text style={{ marginBottom: 5, fontWeight: "bold" }}>
-              Password
+              {t("login.password")}
             </Text>
             <View style={{ position: "relative" }}>
               <TextInput
@@ -92,7 +107,7 @@ function LoginScreen({ navigation }) {
           </View>
           {/* Forgot password */}
           <TouchableOpacity>
-            <Text style={styles.link}>Forgot password?</Text>
+            <Text style={styles.link}>{t("login.forgotPassword")}</Text>
           </TouchableOpacity>
           {/* Login button and finger print */}
           <View
@@ -109,7 +124,7 @@ function LoginScreen({ navigation }) {
               ]}
               disabled={isDisabled}
             >
-              <Text style={styles.loginText}>Log in</Text>
+              <Text style={styles.loginText}>{t("login.loginButton")}</Text>
             </TouchableOpacity>
             <FontAwesome5
               name="fingerprint"
@@ -127,18 +142,18 @@ function LoginScreen({ navigation }) {
             }}
           >
             <Text style={{ color: "#888", fontWeight: "bold" }}>
-              Don't have an account?{" "}
+              {t("login.noAccount")}{" "}
             </Text>
             <TouchableOpacity>
               <Text
                 style={styles.link}
                 onPress={() => navigation.navigate("SignupScreenOne")}
               >
-                Create account
+                {t("login.createAccount")}
               </Text>
             </TouchableOpacity>
           </View>
-          <Text style={styles.appVersion}>App version 1.9.5</Text>
+          <Text style={styles.appVersion}>{t("login.appVersion")}</Text>
         </View>
       </View>
     </KeyboardAvoidingView>

@@ -1,18 +1,20 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 function SuccessMsgScreen({ navigation }) {
+  const { t } = useTranslation();
   return (
     <View style={styles.container}>
       <View style={styles.content}>
         <Image source={require("../assets/images/Success.png")} />
-        <Text style={styles.text}>The account created successfully</Text>
+        <Text style={styles.text}>{t("success.successMessage")}</Text>
       </View>
       <TouchableOpacity
         onPress={() => navigation.navigate("Login")}
         style={styles.btn}
       >
-        <Text style={styles.btnText}>Login Again</Text>
+        <Text style={styles.btnText}>{t("success.loginButton")}</Text>
       </TouchableOpacity>
     </View>
   );

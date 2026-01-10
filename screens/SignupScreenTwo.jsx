@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
 import { passwordRules } from "../utilities/passwordRules";
+import { useTranslation } from "react-i18next";
 
 function SignupScreenTwo({ navigation }) {
   const [hidePassword, setHidePassword] = useState(true);
@@ -15,19 +16,24 @@ function SignupScreenTwo({ navigation }) {
   const [password, setPassword] = useState("");
   const isPasswordValid = passwordRules.every((rule) => rule.test(password));
   const isDisabled = !username || !password || !isPasswordValid;
+  const { t } = useTranslation();
 
   return (
     <View style={styles.container}>
       <View style={{ margin: 20 }}>
         {/* Inputs */}
         <View>
-          <Text style={{ marginBottom: 5, fontWeight: "bold" }}>Username</Text>
+          <Text style={{ marginBottom: 5, fontWeight: "bold" }}>
+            {t("signupTwo.username")}
+          </Text>
           <TextInput
             style={styles.input}
             onChangeText={setUsername}
             value={username}
           />
-          <Text style={{ marginBottom: 5, fontWeight: "bold" }}>Password</Text>
+          <Text style={{ marginBottom: 5, fontWeight: "bold" }}>
+            {t("signupTwo.password")}
+          </Text>
           <View style={{ position: "relative" }}>
             <TextInput
               style={styles.input}
@@ -59,7 +65,7 @@ function SignupScreenTwo({ navigation }) {
                 )}
                 {
                   <Text style={isValid ? styles.valid : styles.inValid}>
-                    {rule.label}
+                    {t(rule.label)}
                   </Text>
                 }
               </View>
@@ -76,7 +82,7 @@ function SignupScreenTwo({ navigation }) {
           disabled={isDisabled}
           onPress={() => navigation.navigate("SuccessMsgScreen")}
         >
-          <Text style={styles.continueText}>Continue</Text>
+          <Text style={styles.continueText}>{t("signupTwo.continue")}</Text>
         </TouchableOpacity>
       </View>
     </View>

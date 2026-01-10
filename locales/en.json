@@ -1,0 +1,73 @@
+{
+  "navigation": {
+    "skip": "Skip",
+    "login": "Login"
+  },
+  "onboarding": {
+    "slide1": {
+      "title": "Manage Multiple Cards",
+      "description": "Manage your cards and stay secure with real-time alerts, all in one simple app"
+    },
+    "slide2": {
+      "title": "Send Money",
+      "description": "Send money instantly to anyone, anytime, with just a few taps quick, secure, and always within your reach."
+    },
+    "next": "Next",
+    "continue": "Continue"
+  },
+  "login": {
+    "welcome": "Welcome to AGB bank",
+    "username": "Username",
+    "password": "Password",
+    "forgotPassword": "Forgot password?",
+    "loginButton": "Log in",
+    "noAccount": "Don't have an account?",
+    "createAccount": "Create account",
+    "appVersion": "App version 1.9.5",
+    "loginError": "Wrong username or password"
+  },
+  "home": {
+    "hello": "Hello",
+    "balance": "Credit Balance",
+    "currency": "USD",
+    "activateBtn": "Activate Card",
+    "transactions": "Transactions",
+    "noTransactions": "No transactions yet",
+    "send": "Send",
+    "Details": "Details",
+    "manage": "Manage"
+  },
+  "tabs": {
+    "home": "Home",
+    "support": "Support"
+  },
+  "signupOne": {
+    "createNewAccount": "Create New Account",
+    "cardNumber": "Card number",
+    "continue": "Continue"
+  },
+  "signupTwo": {
+    "username": "Username",
+    "password": "Password",
+    "passwordRules": {
+      "minLength": "Must be at least 8 characters",
+      "uppercase": "Contains 1 uppercase letter",
+      "lowercase": "Contains 1 lowercase letter",
+      "number": "Contains 1 number",
+      "specialChar": "Contains 1 special character"
+    },
+    "continue": "Continue"
+  },
+  "success": {
+    "successMessage": "The account was created successfully",
+    "loginButton": "Log in again"
+  },
+  "support": {
+    "contactInstructions": "Please contact us by email or hotline",
+    "copy": "Copy",
+    "email": "Email",
+    "contactNumber": "Contact Number",
+    "faqs": "FAQs",
+    "copiedToClipboard": "Copied to clipboard"
+  }
+}

@@ -6,6 +6,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons, FontAwesome5, FontAwesome } from "@expo/vector-icons";
 import HomeScreen from "@/screens/HomeScreen";
 import SupportScreen from "@/screens/SupportScreen";
+import { useTranslation } from "react-i18next";
 
 function MyTabBar({ state, descriptors, navigation }) {
   const { colors } = useTheme();
@@ -78,6 +79,7 @@ function MyTabBar({ state, descriptors, navigation }) {
 
 const Tab = createBottomTabNavigator();
 export default function BottomTabs({ route }) {
+  const { t } = useTranslation();
   const { username } = route.params;
   return (
     <Tab.Navigator tabBar={(props) => <MyTabBar {...props} />}>
@@ -85,12 +87,13 @@ export default function BottomTabs({ route }) {
         name="Home"
         component={HomeScreen}
         initialParams={{ username }}
-        options={{ headerShown: false }}
+        options={{ title: t("tabs.home"), headerShown: false }}
       />
       <Tab.Screen
         name="Support"
         component={SupportScreen}
         options={{
+          title: t("tabs.support"),
           headerShadowVisible: false,
           headerStyle: { elevation: 0 },
           headerTitleStyle: { fontWeight: "bold", fontSize: 19 },

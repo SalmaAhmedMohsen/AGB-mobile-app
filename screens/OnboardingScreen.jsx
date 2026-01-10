@@ -10,22 +10,25 @@ import {
 } from "react-native";
 
 import { slides } from "../utilities/slides";
+import { useTranslation } from "react-i18next";
 
 const { width, height } = Dimensions.get("window");
 const Slides = ({ item }) => {
+  const { t } = useTranslation();
   return (
     <View style={{ width, alignItems: "center", height: height * 0.7 }}>
       <Image
         style={{ height: "65%", resizeMode: "contain" }}
         source={item.img}
       />
-      <Text style={styles.title}>{item.title}</Text>
-      <Text style={styles.description}>{item.description}</Text>
+      <Text style={styles.title}>{t(item.title)}</Text>
+      <Text style={styles.description}>{t(item.description)}</Text>
     </View>
   );
 };
 
 const Footer = ({ currentSlideIndex, goToNextSlide, navigation }) => {
+  const { t } = useTranslation();
   return (
     <View
       style={{
@@ -60,11 +63,11 @@ const Footer = ({ currentSlideIndex, goToNextSlide, navigation }) => {
             style={styles.button}
             onPress={() => navigation.replace("Login")}
           >
-            <Text style={styles.buttonText}>Continue</Text>
+            <Text style={styles.buttonText}>{t("onboarding.continue")}</Text>
           </TouchableOpacity>
         ) : (
           <TouchableOpacity style={styles.button} onPress={goToNextSlide}>
-            <Text style={styles.buttonText}>Next</Text>
+            <Text style={styles.buttonText}>{t("onboarding.next")}</Text>
           </TouchableOpacity>
         )}
       </View>
@@ -75,7 +78,6 @@ const Footer = ({ currentSlideIndex, goToNextSlide, navigation }) => {
 function OnboardingScreen({ navigation }) {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const flatListRef = useRef(null);
-
   const updateCurrentSlideIndex = (e) => {
     const currentIndex = Math.round(e.nativeEvent.contentOffset.x / width);
     setCurrentSlideIndex(currentIndex);

@@ -1,19 +1,24 @@
-import { Image, StyleSheet, Text, TouchableOpacity } from "react-native";
-import { createStackNavigator } from "@react-navigation/stack";
-import SplashScreen from "@/screens/SplashScreen";
-import OnboardingScreen from "@/screens/OnboardingScreen";
+import BottomTabs from "@/app/BottomTabs";
 import LoginScreen from "@/screens/LoginScreen";
+import OnboardingScreen from "@/screens/OnboardingScreen";
 import SignupScreenOne from "@/screens/SignupScreenOne";
 import SignupScreenTwo from "@/screens/SignupScreenTwo";
+import SplashScreen from "@/screens/SplashScreen";
 import SuccessMsgScreen from "@/screens/SuccessMsgScreen";
-import BottomTabs from "@/app/BottomTabs";
-import HomeScreen from "@/screens/HomeScreen";
-
-import React from "react";
-
+import { createStackNavigator } from "@react-navigation/stack";
+import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const Stack = createStackNavigator();
 
 function Navigation() {
+  const { t, i18n } = useTranslation();
+  const isAr = i18n.language === "ar";
+  const changeLanguage = async (language) => {
+    await AsyncStorage.setItem("language", language);
+    i18n.changeLanguage(language);
+  };
   return (
     <>
       <Stack.Navigator
@@ -24,6 +29,7 @@ function Navigation() {
         <Stack.Screen
           name="OnBoarding"
           component={OnboardingScreen}
+          key={i18n.language}
           options={({ navigation }) => ({
             headerShown: true,
             headerTitle: () => (
@@ -48,14 +54,21 @@ function Navigation() {
                     paddingRight: 30,
                   }}
                 >
-                  Skip
+                  {t("navigation.skip")}
                 </Text>
               </TouchableOpacity>
             ),
             headerLeft: () => (
-              <TouchableOpacity style={styles.icon}>
-                <Text style={styles.iconText}>ع</Text>
-              </TouchableOpacity>
+              <View>
+                <TouchableOpacity
+                  style={styles.icon}
+                  onPress={() => {
+                    changeLanguage(isAr ? "en" : "ar");
+                  }}
+                >
+                  <Text style={styles.iconText}>{isAr ? "En" : "ع"}</Text>
+                </TouchableOpacity>
+              </View>
             ),
           })}
         />
@@ -65,6 +78,7 @@ function Navigation() {
           component={SignupScreenOne}
           options={{
             headerShown: true,
+            headerBackTitle: t("navigation.login"),
             headerTitle: "",
             headerStyle: {
               height: 80,

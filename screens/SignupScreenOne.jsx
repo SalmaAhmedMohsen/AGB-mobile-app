@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   StyleSheet,
   Text,
@@ -10,11 +11,12 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 function SignupScreenOne({ navigation }) {
   const [cardNumber, setCardNumber] = useState("");
+  const { t } = useTranslation();
   return (
     <SafeAreaView style={styles.container}>
       <View style={{ margin: 20 }}>
-        <Text style={styles.createTitle}>Create new accounty</Text>
-        <Text>Card number</Text>
+        <Text style={styles.createTitle}>{t("signupOne.createNewAccount")}</Text>
+        <Text>{t("signupOne.cardNumber")}</Text>
         <TextInput
           style={styles.input}
           onChangeText={setCardNumber}
@@ -31,7 +33,7 @@ function SignupScreenOne({ navigation }) {
           disabled={cardNumber.length != 16}
           onPress={() => navigation.navigate("SignupScreenTwo")}
         >
-          <Text style={styles.continueText}>Continue</Text>
+          <Text style={styles.continueText}>{t("signupOne.continue")}</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
